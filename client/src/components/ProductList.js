@@ -11,7 +11,7 @@ const ProductList = (props) => {
   const { product, setProduct } = props;
 
   useEffect(()=> {
-    axios.get('http://localhost:8000/api/people')
+    axios.get('http://localhost:8000/api/product')
       .then((res) => {
         console.log(res.data); 
         setProduct(res.data);
@@ -20,13 +20,15 @@ const ProductList = (props) => {
 
   return(
     <div> 
+      <h1>All Products</h1>
+      <br/>
       {
         product.map((product, index)=> {
           return (
             <div key={ index }>
               <p > { product.title } </p> 
               <p> { product.price }</p> 
-              <Link to={ `/people/${ product.id } `}> {product.title}'s Page! </Link>
+              <Link to={ `/product/${ product._id } `}> {product.title}'s Page! </Link>
             </div>
 
         )})
