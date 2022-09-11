@@ -10,3 +10,19 @@ module.exports.createProduct = (req, res) => {
 		.then(product => res.json(product))
 		.catch(err => res.json(err));
 }
+
+module.exports.getAllProduct = (req, res) => {
+	//mongoose method for finding all product entries into the db
+	Product.find({})
+		.then(product => {
+			console.log(product);
+			res.json(product);
+		})
+}
+
+module.exports.getProduct = (req, res) => {
+	Product.findOne({_id:req.params.id})
+		.then(product => res.json(product))
+		.catch(err => res.json(err))
+}
+	

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ProductForm = () => {
+const ProductForm = (props) => {
   // keeping track of whiat is being typed via use State hook 
+    const { product, setProduct } = props;
     const [ title, setTitle ] = useState("");
     const [ price, setPrice ] = useState("");
     const [ description, setDescription ] = useState("");
@@ -26,6 +27,9 @@ const ProductForm = () => {
         setTitle("");
         setPrice("");
         setDescription("");
+        // update the lifted state of the product array
+        // to include the cuirrent value in state plus the single 
+        setProduct([...product, res.data]); 
         })
         .catch(err=> console.log(err))
     }
