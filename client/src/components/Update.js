@@ -9,6 +9,8 @@ const Update = (props) => {
   const [ description, setDescription ] = useState("");
   const nav = useNavigate();
   
+  //make a request to the server to get the "id"
+  //once resolved set the state the response values
   useEffect(() => {
     axios.get('http://localhost:8000/api/product/' + id)
       .then(res => {

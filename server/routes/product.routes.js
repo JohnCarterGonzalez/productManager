@@ -7,4 +7,6 @@ module.exports = (app) => {
 	app.get('/api/product/:id', ProductController.getProduct);
 	//update items
 	app.put('/api/product/:id', ProductController.updateProduct);
+	//delete items, the id here must match the params in the controller
+	app.delete('/api/product/:id', ProductController.deletePerson);
 }

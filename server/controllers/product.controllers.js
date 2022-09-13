@@ -32,4 +32,10 @@ module.exports.updateProduct = (req, res ) => {
 		.then(updateProduct => res.json(updateProduct))
 		.catch(err => res.json(err))
 }
+
+module.exports.deletePerson = (req, res ) => {
+	Product.deleteOne( { _id: req.params.id  } ) //id must match id in corresponding route
+		.then( deleteConfirmation => res.json( deleteConfirmation ) )
+		.catch( err => res.json(err) )
+}
 	
