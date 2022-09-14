@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import React, { useState } from "react";
 import ProductList from '../components/ProductList';
 import ProductForm from '../components/ProductForm';
 
@@ -7,7 +6,7 @@ const Main = (props) => {
   const [ product, setProduct ] = useState([]);
 
   const removeFromDom = productId => {
-    setProduct(product.filter(product => product._id != productId));
+    setProduct(product.filter(product => product._id !== productId));
   }
   
   /* PersonForm and Person List can both utilize the getter and setter established in their parent component: */

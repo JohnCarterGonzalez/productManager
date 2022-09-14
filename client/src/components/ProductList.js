@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const ProductList = (props) => {
@@ -9,10 +9,11 @@ const ProductList = (props) => {
     and setter without having to write props.getter or props.setter every time: */
 
   const { removeFromDom, product, setProduct } = props;
+  const nav = useNavigate();
 
   //sending a request to the api to delete the product, also removing it from the DOM
-  const deletePerson = (productId) => {
-    axios.delete('http://localhost:8000/api/product' + productId )
+  const deleteProduct = (productId) => {
+    axios.delete(`http://localhost:8000/api/product/${productId}` )
       .then( res => {
         removeFromDom(productId)
       })
@@ -34,13 +35,16 @@ const ProductList = (props) => {
         product.map((product, index)=> {
           return (
             <div key={ index }>
-              <p > { product.title } </p> 
-              <p> { product.price }</p> 
-              <Link to={ `/product/${ product._id } `}> {product.title}'s Page! </Link>
-              <Link to={"/product/edit" + product._id}>Edit</Link>
-              <button onClick={ (e) => {deletePerson(product._id)} }>Delete</button>
+              <Link to={ "/product/" + product._id}> 
+                Title: {product.title}
+                <br />
+                Price: {product.price} 
+                <br/>
+              </Link>
+            <button onClick={ (e) => nav(`/product/edit/${product._id}`) }>Edit</button>
+              <br />
+            <button onClick={ (e) => {deleteProduct(product._id)} }>Delete</button>
             </div>
-
         )})
       }
     </div>
