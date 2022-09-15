@@ -13,9 +13,9 @@ const Update = (props) => {
         axios.get("http://localhost:8000/api/product/" + id).then((res) => {
             setProduct(res.data);
             setProductTitle(res.data.title);
-            setLoaded;
+            setLoaded(true);
         });
-    });
+    }, [id]);
 
     const updateProduct = (productParams) => {
         axios
@@ -30,12 +30,15 @@ const Update = (props) => {
     return (
         <>
             <h1> Update The {capTitle(productTitle)}</h1>
+            {
+                loaded && 
             <ProductForm
                 onSubmitProp={updateProduct}
                 initialTitle={product.title}
                 initialPrice={product.price}
                 initialDescription={product.description}
             />
+            }
         </>
     );
 };

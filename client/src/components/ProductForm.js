@@ -3,7 +3,7 @@ import axios from "axios";
 
 const ProductForm = (props) => {
     // keeping track of whiat is being typed via use State hook
-    const { product, setProduct } = props;
+    const { product, setProduct, onSubmitProp } = props;
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
@@ -12,26 +12,7 @@ const ProductForm = (props) => {
     const onSubmitHandler = (e) => {
         //prevent default beahivour of submit
         e.preventDefault();
-
-        //make a post request to create a new product
-        axios
-            .post("http://localhost:8000/api/product", {
-                title,
-                price,
-                description,
-            })
-
-            .then((res) => {
-                console.log(res); //alaways console.log to get used to tracking data
-                console.log(res.data);
-                setTitle("");
-                setPrice("");
-                setDescription("");
-                // update the lifted state of the product array
-                // to include the cuirrent value in state plus the single
-                setProduct([...product, res.data]);
-            })
-            .catch((err) => console.log(err));
+        onSubmitProp({ title, price, description });
     };
 
     return (
