@@ -3,17 +3,17 @@ import ProductList from "../components/ProductList";
 import ProductForm from "../components/ProductForm";
 import axios from "axios";
 
-const Main = (props) => {
-    const [product, setProduct] = useState([]);
+const Main = () => {
+    const [productList, setProductList] = useState([]);
 
     useEffect(() => {
         axios
             .get("http://localhost:8000/api/product")
-            .then((res) => {
-                setProduct(res.data);
+            .then(res => {
+                setProductList(res.data)
             })
-            .catch((err) => console.log(err));
-    }, []);
+            .catch((err) => console.log(err))
+    }, [])
 
     //deletion method, takes an id as a param, then once fulfilled, displays all the products where the id does not
     //match
@@ -23,7 +23,7 @@ const Main = (props) => {
             .then((res) => {
                 console.log(res);
                 console.log(res.data);
-                setProduct(product.filter((product) => product._id !== productId));
+                setProductList(productList.filter((product) => product._id !== productId));
             });
     };
 
@@ -34,7 +34,7 @@ const Main = (props) => {
             .then((res) => {
                 console.log(res);
                 console.log(res.data);
-                setProduct([...product, res.data]);
+                setProductList([...productList, res.data]);
             })
             .catch((err) => console.log(err));
     };
@@ -43,12 +43,13 @@ const Main = (props) => {
     return (
         <div>
             <ProductForm
-                product={product}
-                setProduct={setProduct}
+                initialTitle="" 
+                initialPrice=""
+                initialDescription=""
                 onSubmitProp={createProduct}
             />
             <hr />
-            <ProductList product={product} removeFromDom={removeFromDom} />
+            <ProductList product={productList} removeFromDom={removeFromDom} />
         </div>
     );
 };

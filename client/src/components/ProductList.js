@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import DeleteButton from "../components/DeleteButton.js";
 
 const ProductList = (props) => {
     /* We deconstruct getter and setter which were passed down
@@ -8,54 +9,39 @@ const ProductList = (props) => {
         component (PersonList.js). Now we can easily use the getter
         and setter without having to write props.getter or props.setter every time: */
 
-    const { removeFromDom, product, setProduct } = props;
-    const nav = useNavigate();
+  const  [ product, setProduct ] = useState([]);
 
-    //sending a request to the api to delete the product, also removing it from the DOM
-    const deleteProduct = (productId) => {
-        axios
-            .delete(`http://localhost:8000/api/product/${productId}`)
-            .then((res) => {
-                removeFromDom(productId);
-            })
-            .catch((err) => console.log(err));
-    };
-    useEffect(() => {
-        axios.get("http://localhost:8000/api/product").then((res) => {
-            console.log(res.data);
-            setProduct(res.data);
-        });
-    }, []);
+  // Gets the items that have been added by the parent (Main.js)
+  useEffect(() => {
+      axios.get("http://localhost:8000/api/product")
+      .then((res) => setProduct(res.data));
+  }, []);
 
-    return (
-        <div>
-            <h1>All Products</h1>
-            <br />
-            {product.map((product, index) => {
-                return (
-                    <div key={index}>
-                        <Link to={"/product/" + product._id}>
-                            Title: {product.title}
-                            <br />
-                            Price: {product.price}
-                            <br />
-                        </Link>
-                        <button onClick={(e) => nav(`/product/edit/${product._id}`)}>
-                            Edit
-                        </button>
-                        <br />
-                        <button
-                            onClick={(e) => {
-                                deleteProduct(product._id);
-                            }}
-                        >
-                            Delete
-                        </button>
-                    </div>
-                );
-            })}
-        </div>
-    );
+  //removes the product by ID from the state, sending this method down via prop 
+  const removeFromDom = productId => {
+    setProduct(product.filter(product => product._id !== productId))
+  }
+
+  return (
+      <div>
+          <h1 className="mt-5">All Products</h1>
+          <br />
+          {product.map((product, index) => {
+              return (
+                  <div key={index}>
+                      <Link to={"/product/" + product._id}>
+                          Title: {product.title}
+                          <br />
+                          Price: {product.price}
+                          <br />
+                      </Link>
+            <Link to={"/product/" +product._id + "/edit"}> Edit</Link>
+                      <DeleteButton productId={product._id} successCallback={()=>removeFromDom(product._id)} />
+                  </div>
+              );
+          })}
+      </div>
+  );
 };
 
 export default ProductList;

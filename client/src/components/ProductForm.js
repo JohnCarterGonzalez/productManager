@@ -3,10 +3,10 @@ import axios from "axios";
 
 const ProductForm = (props) => {
     // keeping track of whiat is being typed via use State hook
-    const { product, setProduct, onSubmitProp } = props;
-    const [title, setTitle] = useState("");
-    const [price, setPrice] = useState("");
-    const [description, setDescription] = useState("");
+    const { initialTitle, initialPrice, initialDescription, onSubmitProp } = props;
+    const [title, setTitle] = useState(initialTitle);
+    const [price, setPrice] = useState(initialPrice);
+    const [description, setDescription] = useState(initialDescription);
 
     // handler for form submission
     const onSubmitHandler = (e) => {
